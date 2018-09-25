@@ -7,7 +7,9 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout,
                              QPushButton, QComboBox, QTextEdit)
 from serial.tools.list_ports import comports as list_serial_ports
 from serial import Serial
-from deviceflasher import DeviceFlasher
+from .deviceflasher import DeviceFlasher
+from .logger import setupLogger
+import logging
 
 class PixelKitFlasher(QWidget):
     comboSerialPorts = None
@@ -115,7 +117,15 @@ class PixelKitFlasher(QWidget):
     def on_flash_data(self, data):
         self.log(data)
 
-if __name__ == '__main__':
+
+def run():
     app = QApplication(sys.argv)
-    view = PixelKitFlasher()
+    flasher = PixelKitFlasher()
     sys.exit(app.exec_())
+    setupLogger()
+    logging.info('=========================')
+    logging.info('         Started')
+    logging.info('=========================')
+
+if __name__ == '__main__':
+    run()

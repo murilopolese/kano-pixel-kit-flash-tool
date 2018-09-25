@@ -1,11 +1,15 @@
 import os
+import appdirs
 from argparse import Namespace
 import esptool
 import tempfile
 import tarfile
 import urllib.request
 from PyQt5.QtCore import QThread, QObject, pyqtSignal
+from .logger import setupLogger
+import logging
 
+setupLogger()
 
 class DeviceFlasher(QThread):
     """
@@ -36,6 +40,7 @@ class DeviceFlasher(QThread):
         else:
             msg = "Unknown firmware type: {0}".format(self.firmware_type)
             print(msg)
+            logging.error(msg)
             self.on_flash_fail.emit(msg)
 
     def get_addr_filename(self, values):
@@ -61,6 +66,7 @@ class DeviceFlasher(QThread):
             return addr_filename
         except Exception as ex:
             print(ex)
+            logging.error(ex)
             self.on_flash_fail.emit('Could not open file.')
 
     def write_flash(self, addr_filename):
@@ -90,43 +96,29 @@ class DeviceFlasher(QThread):
             esp.hard_reset()
         except Exception as ex:
             print(ex)
+            logging.error(ex)
             self.on_flash_fail.emit("Could not write to flash memory.")
 
-    def download_micropython(self):
-        self.on_data.emit("Downloading MicroPython firmware.")
-        url = "http://micropython.org/resources/firmware/" + \
-              "esp32-20180511-v1.9.4.bin"
-        f = tempfile.NamedTemporaryFile()
-        f.close()
-        try:
-            urllib.request.urlretrieve(url, f.name)
-            # TODO: Checksum the firmware
-            msg = "Downloaded MicroPython firmware to: {0}".format(f.name)
-            self.on_data.emit(msg)
-            return f.name
-        except Exception as ex:
-            print(ex)
-            self.on_flash_fail.emit("Could not download MicroPython firmware")
-
     def flash_micropython(self):
-        firmware_path = os.path.abspath('pixelkitflasher/firmware/esp32-20180511-v1.9.4.bin')
+        # firmware_path = os.path.relpath(
+        #     'rpkflashtool/firmware/esp32-20180511-v1.9.4.bin'
+        # )
+        firmware_path = os.path.join(
+            os.path.dirname(__file__),
+            'firmware',
+            'esp32-20180511-v1.9.4.bin'
+        )
         addr_filename = self.get_addr_filename([("0x1000", firmware_path)])
         self.write_flash(addr_filename)
 
-    def download_kanocode(self):
-        self.on_data.emit("Downloading Kano Code firmware. This can take a while.")
-        url = "https://releases.kano.me/rpk/offline/rpk_1.0.2.tar.gz.disabled"
-        f = tempfile.NamedTemporaryFile()
-        f.close()
-        try:
-            urllib.request.urlretrieve(url, f.name)
-            self.on_data.emit("Downloaded Kano Code firmware to: {0}".format(f.name))
-            return f.name
-        except Exception as ex:
-            print(ex)
-            self.on_flash_fail.emit("Could not download Kano Code firmware")
-
     def flash_kanocode(self):
-        firmware_path = os.path.abspath('pixelkitflasher/firmware/rpk_1.0.2_dump.bin')
+        # firmware_path = os.path.relpath(
+        #     'rpkflashtool/firmware/rpk_1.0.2_dump.bin'
+        # )
+        firmware_path = os.path.join(
+            os.path.dirname(__file__),
+            'firmware',
+            'rpk_1.0.2_dump.bin'
+        )
         addr_filename = self.get_addr_filename([("0x0", firmware_path)])
         self.write_flash(addr_filename)
