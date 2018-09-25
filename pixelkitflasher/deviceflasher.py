@@ -1,9 +1,9 @@
+import os
 from argparse import Namespace
 import esptool
 import tempfile
 import tarfile
 import urllib.request
-import logging
 from PyQt5.QtCore import QThread, QObject, pyqtSignal
 
 
@@ -64,7 +64,7 @@ class DeviceFlasher(QThread):
             self.on_flash_fail.emit('Could not open file.')
 
     def write_flash(self, addr_filename):
-        self.on_data.emit("Writing firmware to flash memory. This can take a while.")
+        self.on_data.emit("Preparing to flash memory. This can take a while.")
         args = Namespace()
         args.flash_freq = "40m"
         args.flash_mode = "dio"
@@ -83,7 +83,9 @@ class DeviceFlasher(QThread):
             esp.change_baud(921600)
             esptool.detect_flash_size(esp, args)
             esp.flash_set_parameters(esptool.flash_size_bytes(args.flash_size))
+            self.on_data.emit('Erasing flash memory.')
             esptool.erase_flash(esp, args)
+            self.on_data.emit('Writing flash memory.')
             esptool.write_flash(esp, args)
             esp.hard_reset()
         except Exception as ex:
@@ -107,7 +109,7 @@ class DeviceFlasher(QThread):
             self.on_flash_fail.emit("Could not download MicroPython firmware")
 
     def flash_micropython(self):
-        firmware_path = self.download_micropython()
+        firmware_path = os.path.abspath('pixelkitflasher/firmware/esp32-20180511-v1.9.4.bin')
         addr_filename = self.get_addr_filename([("0x1000", firmware_path)])
         self.write_flash(addr_filename)
 
@@ -125,14 +127,6 @@ class DeviceFlasher(QThread):
             self.on_flash_fail.emit("Could not download Kano Code firmware")
 
     def flash_kanocode(self):
-        firmware_path = self.download_kanocode()
-        tar = tarfile.open(firmware_path)
-        tmpdir = tempfile.TemporaryDirectory()
-        tar.extractall(path=tmpdir.name)
-        values = [
-            ("0x1000", "{0}/RPK_Bootloader_V1_0_2.bin".format(tmpdir.name)),
-            ("0x10000", "{0}/RPK_App_V1_0_2.bin".format(tmpdir.name)),
-            ("0x8000", "{0}/RPK_Partitions_V1_0_2.bin".format(tmpdir.name))
-        ]
-        addr_filename = self.get_addr_filename(values)
+        firmware_path = os.path.abspath('pixelkitflasher/firmware/rpk_1.0.2_dump.bin')
+        addr_filename = self.get_addr_filename([("0x0", firmware_path)])
         self.write_flash(addr_filename)
