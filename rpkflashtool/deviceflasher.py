@@ -106,9 +106,9 @@ class DeviceFlasher(QThread):
         firmware_path = os.path.join(
             os.path.dirname(__file__),
             'firmware',
-            'esp32-20180511-v1.9.4.bin'
+            'pixel32-v0.1.0.bin'
         )
-        addr_filename = self.get_addr_filename([("0x1000", firmware_path)])
+        addr_filename = self.get_addr_filename([("0x0", firmware_path)])
         self.write_flash(addr_filename)
 
     def flash_kanocode(self):
