@@ -6,7 +6,7 @@ This is a very simple tool to flash your Pixel Kit with the Kano Code firmware (
 
 ## Download
 
-Check the [releases page](https://github.com/murilopolese/kano-pixel-kit-flash-tool/releases) to see if there is already a release for your OS.
+Check the [releases page](https://github.com/murilopolese/kano-pixel-kit-flash-tool/releases).
 
 ## Features
 
