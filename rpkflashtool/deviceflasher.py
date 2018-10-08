@@ -100,21 +100,15 @@ class DeviceFlasher(QThread):
             self.on_flash_fail.emit("Could not write to flash memory.")
 
     def flash_micropython(self):
-        # firmware_path = os.path.relpath(
-        #     'rpkflashtool/firmware/esp32-20180511-v1.9.4.bin'
-        # )
         firmware_path = os.path.join(
             os.path.dirname(__file__),
             'firmware',
-            'pixel32-v0.1.0.bin'
+            'pixel32-v0.1.1.bin'
         )
         addr_filename = self.get_addr_filename([("0x0", firmware_path)])
         self.write_flash(addr_filename)
 
     def flash_kanocode(self):
-        # firmware_path = os.path.relpath(
-        #     'rpkflashtool/firmware/rpk_1.0.2_dump.bin'
-        # )
         firmware_path = os.path.join(
             os.path.dirname(__file__),
             'firmware',
