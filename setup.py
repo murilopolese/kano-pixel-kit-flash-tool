@@ -5,7 +5,7 @@ install_requires = ['esptool==2.5.0', 'PyQt5==5.11.2', 'pyserial==3.4',
 
 setup(
     name='rpkflashtool',
-    version='0.1.0',
+    version='0.1.1',
     description='A simple Flasher for Kano Pixel Kit.',
     long_description='Flash your Pixel Kit with MicroPython or Kano Code firmware.',
     author='Murilo Polese',
