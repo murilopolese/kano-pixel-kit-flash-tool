@@ -21,3 +21,11 @@ The MicroPython firmware comes with all the libraries and documentation you need
 ## Kano Code firmware
 
 Kano Code firmware is what makes your Pixel Kit able to interact with the [Kano Code App](https://kano.me/landing/app/uk).
+
+## Building
+
+### MacOS
+
+1. Make sure you have Python 3 and pip installed
+1. Run `pip install --user -r requirements.txt`
+1. Run `python setup.py macos`
