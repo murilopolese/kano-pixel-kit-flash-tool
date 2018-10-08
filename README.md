@@ -27,5 +27,7 @@ Kano Code firmware is what makes your Pixel Kit able to interact with the [Kano 
 ### MacOS
 
 1. Make sure you have Python 3 and pip installed
-1. Run `pip install --user -r requirements.txt`
+1. Remove old build folders with `rm -rf macOS`
+1. Run `virtualenv .env` and `source .env/bin/activate`
+1. Run `pip install -r requirements.txt`
 1. Run `python setup.py macos`
