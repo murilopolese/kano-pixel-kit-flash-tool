@@ -15,7 +15,7 @@ with io.open('README.md', encoding='utf8') as readme:
     long_description = readme.read()
 
 install_requires = [
-    'esptool==2.5.0',
+    'esptool==2.5.1',
     'PyQt5==5.11.2',
     'pyserial==3.4',
     'appdirs==1.4.3'
