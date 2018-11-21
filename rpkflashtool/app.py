@@ -48,7 +48,7 @@ class App(QWidget):
         # Button to refresh ports
         self.btnRefreshPorts = QPushButton('Refresh ports', self)
         # Button to flash MicroPython and Kano Code firmwares
-        self.btnFlashMicroPython = QPushButton('Flash MicroPython', self)
+        self.btnFlashMicroPython = QPushButton('Flash MicroPython + Pixel32', self)
         self.btnFlashKanoCode = QPushButton('Flash Kano Code', self)
         # Text area for printing the logs (not editable)
         self.logArea = QTextEdit(self)
