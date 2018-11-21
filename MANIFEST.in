@@ -1,0 +1,2 @@
+include rpkflashtool/firmware/*.bin
+include rpkflashtool/firmware/*.img
