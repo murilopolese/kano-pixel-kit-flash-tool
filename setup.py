@@ -34,11 +34,5 @@ setup(
     install_requires=install_requires,
     include_package_data=True,
     zip_safe=False,
-    classifiers=[],
-    options={  # Briefcase packaging options for OSX
-        'app': {
-            'formal_name': 'Pixel Kit Flash Tool',
-            'bundle': 'com.rpkflashtool',
-        }
-    }
+    classifiers=[]
 )
