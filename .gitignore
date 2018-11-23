@@ -1,4 +1,8 @@
-.env
+venv
 __pycache__
 macOS
+windows
+linux
 build
+dist
+*.egg-info

@@ -3,5 +3,4 @@ PyQt5-sip==4.19.13
 pyserial==3.4
 esptool==2.5.1
 appdirs==1.4.3
-briefcase==0.2.7
-sip==4.19.8
+PyInstaller==3.4
