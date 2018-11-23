@@ -1,1 +1,3 @@
-echo "To do!"
+pyinstaller --log-level=DEBUG \
+	--noconfirm \
+	macos.spec
