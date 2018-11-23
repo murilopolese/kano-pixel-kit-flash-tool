@@ -97,6 +97,7 @@ class DeviceFlasher(QThread):
             # Erase the current flash memory first
             self.on_data.emit('Erasing flash memory.')
             esptool.erase_flash(esp, args)
+            self.on_data.emit('Writing on flash memory.')
             # Intercept what esptool prints out by replacing the `sys.stdout`
             # by
             old_stdout = sys.stdout
