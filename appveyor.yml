@@ -1,0 +1,43 @@
+version: 0.2.0-{build}
+
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PYTHON: C:\Python37
+      ARTIFACT: dist\rpkflashtool.exe
+    - APPVEYOR_BUILD_WORKER_IMAGE: ubuntu1804
+      ARTIFACT: dist/rpkflashtool
+
+branches:
+  only:
+    - v0.2.0
+install:
+    - cmd: "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+    - sh: sudo apt-get update
+    - sh: sudo apt-get install python3-pip -y
+    - sh: alias python="/usr/bin/python3"
+    - sh: python -m pip install virtualenv
+    - sh: python -m virtualenv venv
+    - sh: . venv/bin/activate
+    - sh: export PATH="/home/appveyor/.local/bin:$PATH"
+    - python --version
+    - sh: python -m pip install -r requirements.txt --user
+    - cmd: python -m pip install -r requirements.txt
+
+build_script:
+    - cmd: ./build_win.bat
+    - sh: ./build_linux.sh
+
+artifacts:
+    - path: dist/*
+
+deploy:
+    release: Draft Release $(APPVEYOR_BUILD_VERSION)
+    description: Draft release description $(APPVEYOR_BUILD_VERSION)
+    provider: GitHub
+    auth_token:
+        secure: MkcLF/KRxO+M0R+3Bav0L1n64zGja1dx1HvTxv+UaHD5kmJT6lnQp0BGWjXYX77O
+    artifact: $(ARTIFACT)
+    draft: true
+    on:
+        branch: v0.2.0
