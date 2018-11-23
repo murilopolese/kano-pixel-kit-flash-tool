@@ -12,7 +12,7 @@ platform: x86
 
 branches:
   only:
-    - v0.2.0
+    - master
 install:
     - cmd: "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
     - sh: sudo apt-get update
@@ -46,4 +46,4 @@ deploy:
     artifact: $(ARTIFACT)
     draft: true
     on:
-        branch: v0.2.0
+        branch: master
